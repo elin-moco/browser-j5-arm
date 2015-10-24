@@ -1,6 +1,6 @@
 {
-  "name": "J5 Car Demo",
-  "description": "A sample Apache Cordova application that connects arduino car using Johnny Five via BLE.",
+  "name": "J5 Arm Demo",
+  "description": "A sample Apache Cordova application that connects arduino robot arm using Johnny Five via BLE.",
   "launch_path": "/index.html",
   "installs_allowed_from": [
     "*"

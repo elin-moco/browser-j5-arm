@@ -52,7 +52,7 @@ html, body {
     height: 100%;
 }
 
-#joystick {
+#controls {
     position: absolute;
     display: block;
     width: 100%;
