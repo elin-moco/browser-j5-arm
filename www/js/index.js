@@ -28,12 +28,12 @@ function initControls() {
   }
 
   function acc2deg(acc) {
-    if (acc < 2.4) {
-      acc = 2.4;
-    } else if (acc > 7.2) {
-      acc = 7.2;
+    if (acc < 1.8) {
+      acc = 1.8;
+    } else if (acc > 7.8) {
+      acc = 7.8;
     }
-    return (acc - 2.4) / 4.8 * 90 + 45;
+    return (acc - 2.4) / 6.0 * 90.0 + 45.0;
   }
 
   bsp.connect().then(function() {
@@ -44,22 +44,30 @@ function initControls() {
       controlsElem.style.background = '#000000';
       var led = new five.Led(7);
       led.on();
+      var holderServo = new five.Servo({
+        pin: 3,
+        range: [45, 135],
+        startAt: 45
+      });
       var xServo = new five.Servo({
-        pin: 6,
+        pin: 5,
         range: [45, 135],
         startAt: 90
       });
       var yServo = new five.Servo({
-        pin: 5,
-        range: [45, 135],
-        startAt: 90
+        pin: 6,
+        range: [0, 90],
+        startAt: 0
       });
       navigator.accelerometer.watchAcceleration(
           function(acceleration) {
             //console.log(acceleration);
             var x = acc2deg(acceleration.x + 5);
-            var y = acc2deg(acceleration.y);
-            console.log(x, y);
+            var y = acc2deg(10 - acceleration.y) - 45;
+            //console.log('accX', acceleration.x);
+            //console.log('accY', acceleration.y);
+            //console.log('x', x);
+            //console.log('y', y);
             xServo.to(x);
             yServo.to(y);
           },
@@ -67,6 +75,12 @@ function initControls() {
             console.error('Accelerometer Error!');
           },
           { frequency: 1000 });
+      controlsElem.addEventListener('touchstart', function() {
+        holderServo.to(135);
+      });
+      controlsElem.addEventListener('touchend', function() {
+        holderServo.to(45);
+      });
     });
   });
 }
